@@ -1,4 +1,4 @@
-flake8<2.7.0,>=2.6.0
+flake8==3.7.7
 nose
 nosexcover
 pep8>=1.6.0,<1.7
