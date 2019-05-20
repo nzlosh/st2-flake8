@@ -44,7 +44,7 @@ def get_requirements():
 
 
 setup(
-    name='st2-flake8',
+    name='st2flake8',
     version=get_version_string(),
     author='StackStorm',
     author_email='info@stackstorm.com',
@@ -63,5 +63,10 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6'
-    ]
+    ],
+    entry_points={
+        'flake8.extension': [
+            'L = st2flake8.license_rules:LicenseChecker',
+        ]
+    }
 )

@@ -40,7 +40,6 @@ reqs: venv
 	$(VENV_DIR)/bin/pip install -r requirements.txt
 	$(VENV_DIR)/bin/pip install -r requirements-test.txt
 	$(VENV_DIR)/bin/python setup.py develop
-	echo
 
 .PHONY: package
 package:
