@@ -18,6 +18,9 @@ VER := $(shell cat ./st2flake8/__init__.py | grep -Po "__version__ = '\K[^']*")
 # Virtual Environment
 VENV_DIR ?= .venv
 
+# Tox Environment
+TOX_DIR ?= .tox
+
 # Packaging Options
 PKGDISTDIR    = dist
 PKGBUILDDIR   = build
@@ -25,6 +28,7 @@ PKGBUILDDIR   = build
 .PHONY: clean
 clean:
 	rm -rf $(VENV_DIR)
+	rm -rf $(TOX_DIR)
 	rm -rf $(PKGDISTDIR)
 	rm -rf $(PKGBUILDDIR)
 	rm -rf *.egg-info
