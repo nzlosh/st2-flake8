@@ -1,3 +1,4 @@
+# Copyright 2023 StackStorm contributors.
 # Copyright 2019 Extreme Networks, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,12 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from __future__ import absolute_import
-
 import st2flake8
-
-from flake8_polyfill import options
-
 
 PROPRIETARY_LICENSE = """
 # Unauthorized copying of this file, via any medium is strictly
@@ -39,22 +35,19 @@ APACHE_20_LICENSE = """
 # limitations under the License.
 """
 
-PROPRIETARY_LICENSE = PROPRIETARY_LICENSE.strip('\n')
-APACHE_20_LICENSE = APACHE_20_LICENSE.strip('\n')
+PROPRIETARY_LICENSE = PROPRIETARY_LICENSE.strip("\n")
+APACHE_20_LICENSE = APACHE_20_LICENSE.strip("\n")
 
-LICENSE_TYPES = {
-    'proprietary': PROPRIETARY_LICENSE,
-    'apache': APACHE_20_LICENSE
-}
+LICENSE_TYPES = {"proprietary": PROPRIETARY_LICENSE, "apache": APACHE_20_LICENSE}
 
 ERROR_MESSAGES = {
-    'proprietary': 'L101 Proprietary license header not found',
-    'apache': 'L102 Apache 2.0 license header not found'
+    "proprietary": "L101 Proprietary license header not found",
+    "apache": "L102 Apache 2.0 license header not found",
 }
 
 
 class LicenseChecker(object):
-    name = 'st2flake8_license'
+    name = "st2flake8_license"
     version = st2flake8.__version__
     off_by_default = True
 
@@ -64,25 +57,21 @@ class LicenseChecker(object):
 
     @classmethod
     def add_options(cls, parser):
-        options.register(
-            parser,
-            '--license-type',
-            type='choice',
-            choices=['proprietary', 'apache'],
-            default='apache',
-            action='store',
-            parse_from_config=True,
-            help='Checks for specific type of license header.'
+        parser.add_option(
+            "--license-type",
+            type="choice",
+            choices=["proprietary", "apache"],
+            default="apache",
+            action="store",
+            help="Checks for specific type of license header.",
         )
 
-        options.register(
-            parser,
-            '--license-min-file-size',
-            type='int',
+        parser.add_option(
+            "--license-min-file-size",
+            type="int",
             default=1,
-            action='store',
-            parse_from_config=True,
-            help='Minimum number of characters in a file before requiring a license header.'
+            action="store",
+            help="Minimum number of characters in a file before requiring a license header.",
         )
 
     @classmethod
@@ -95,7 +84,7 @@ class LicenseChecker(object):
         L101 Proprietary license header not found
         L102 Apache 2.0 license header not found
         """
-        with open(self.filename, 'r') as f:
+        with open(self.filename, "r") as f:
             content = f.read()
 
         if len(content) >= self.min_file_size and LICENSE_TYPES[self.license_type] not in content:

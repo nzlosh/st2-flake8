@@ -1,3 +1,4 @@
+# Copyright 2023 StackStorm contributors.
 # Copyright 2019 Extreme Networks, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,8 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from __future__ import absolute_import
-
 import ast
 
 from st2flake8 import license_rules
@@ -21,7 +20,6 @@ from st2flake8.tests.unit import base
 
 
 class LicenseCheckerTest(base.Flake8PluginTest):
-
     def get_plugin_instance(self, fixture, **options):
         filename = self.get_fixture_path(fixture)
         tree = ast.parse(self.get_fixture_content(filename))
@@ -30,9 +28,7 @@ class LicenseCheckerTest(base.Flake8PluginTest):
         return instance
 
     def test_module_with_default_license(self):
-        instance = self.get_plugin_instance(
-            'license_check/module_with_apache_license.py'
-        )
+        instance = self.get_plugin_instance("license_check/module_with_apache_license.py")
 
         expected_error = []
 
@@ -40,8 +36,7 @@ class LicenseCheckerTest(base.Flake8PluginTest):
 
     def test_module_with_proprietary_license(self):
         instance = self.get_plugin_instance(
-            'license_check/module_with_proprietary_license.py',
-            license_type='proprietary'
+            "license_check/module_with_proprietary_license.py", license_type="proprietary"
         )
 
         expected_error = []
@@ -50,18 +45,16 @@ class LicenseCheckerTest(base.Flake8PluginTest):
 
     def test_module_with_wrong_proprietary_license(self):
         instance = self.get_plugin_instance(
-            'license_check/module_with_gnu_license.py',
-            license_type='proprietary'
+            "license_check/module_with_gnu_license.py", license_type="proprietary"
         )
 
-        expected_error = [(1, 1, 'L101 Proprietary license header not found', type(instance))]
+        expected_error = [(1, 1, "L101 Proprietary license header not found", type(instance))]
 
         self.assertListEqual(list(instance.run()), expected_error)
 
     def test_module_with_apache_license(self):
         instance = self.get_plugin_instance(
-            'license_check/module_with_apache_license.py',
-            license_type='apache'
+            "license_check/module_with_apache_license.py", license_type="apache"
         )
 
         expected_error = []
@@ -70,30 +63,29 @@ class LicenseCheckerTest(base.Flake8PluginTest):
 
     def test_module_with_wrong_apache_license(self):
         instance = self.get_plugin_instance(
-            'license_check/module_with_gnu_license.py',
-            license_type='apache'
+            "license_check/module_with_gnu_license.py", license_type="apache"
         )
 
-        expected_error = [(1, 1, 'L102 Apache 2.0 license header not found', type(instance))]
+        expected_error = [(1, 1, "L102 Apache 2.0 license header not found", type(instance))]
 
         self.assertListEqual(list(instance.run()), expected_error)
 
     def test_empty_module_with_license_check_on_zero_file_size(self):
         instance = self.get_plugin_instance(
-            'license_check/module_with_no_content.py',
-            license_type='proprietary',
-            license_min_file_size=0
+            "license_check/module_with_no_content.py",
+            license_type="proprietary",
+            license_min_file_size=0,
         )
 
-        expected_error = [(1, 1, 'L101 Proprietary license header not found', type(instance))]
+        expected_error = [(1, 1, "L101 Proprietary license header not found", type(instance))]
 
         self.assertListEqual(list(instance.run()), expected_error)
 
     def test_empty_module_with_license_check_on_min_file_size(self):
         instance = self.get_plugin_instance(
-            'license_check/module_with_no_content.py',
-            license_type='proprietary',
-            license_min_file_size=1
+            "license_check/module_with_no_content.py",
+            license_type="proprietary",
+            license_min_file_size=1,
         )
 
         expected_error = []

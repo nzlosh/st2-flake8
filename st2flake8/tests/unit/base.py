@@ -1,3 +1,4 @@
+# Copyright 2023 StackStorm contributors.
 # Copyright 2019 Extreme Networks, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,23 +13,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from __future__ import absolute_import
-
 import os
 import optparse
-import six
 import unittest
 
 from st2flake8.tests.fixtures import loader as fixture_loader
 
 
 class Flake8PluginTest(unittest.TestCase):
-
     def get_fixture_path(self, fixture):
         return os.path.join(fixture_loader.get_fixtures_base_path(), fixture)
 
     def get_fixture_content(self, filename):
-        with open(filename, 'r') as f:
+        with open(filename, "r") as f:
             content = f.read()
 
         return content
@@ -42,8 +39,8 @@ class Flake8PluginTest(unittest.TestCase):
         # Setup the args to pass into the checker.
         cli_args = []
 
-        for k, v in six.iteritems(kwargs):
-            arg_name = '--' + k.replace('_', '-')
+        for k, v in kwargs.items():
+            arg_name = "--" + k.replace("_", "-")
             cli_args.extend([arg_name, str(v)])
 
         (options, args) = parser.parse_args(cli_args)
