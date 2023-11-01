@@ -1,3 +1,4 @@
+# Copyright 2023 StackStorm contributors.
 # Copyright 2019 Extreme Networks, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,7 +14,7 @@
 # limitations under the License.
 
 PY3 := /usr/bin/python3
-VER := $(shell cat ./st2flake8/__init__.py | grep -Po "__version__ = '\K[^']*")
+VER := $(shell awk -F'"' '/__version__ =/ {print $2}' ./st2flake8/__init__.py)
 
 # Virtual Environment
 VENV_DIR ?= .venv
@@ -34,13 +35,22 @@ clean:
 	rm -rf *.egg-info
 	rm -f coverage.xml
 
+.PHONY: tox
+tox:
+	$(VENV_DIR)/bin/tox
+
+.PHONY: tests
+tests:
+	echo "Running tests"
+	$(VENV_DIR)/bin/pytest
+
 .PHONY: venv
 venv:
-	test -d $(VENV_DIR) || virtualenv --no-site-packages $(VENV_DIR)
+	test -d $(VENV_DIR) || $(PY3) -m venv $(VENV_DIR)
 
-.PHONY: reqs
-reqs: venv
-	$(VENV_DIR)/bin/pip install --upgrade "pip>=19.0,<20.0"
+.PHONY: build
+build: venv
+	$(VENV_DIR)/bin/pip install --upgrade pip
 	$(VENV_DIR)/bin/pip install -r requirements.txt
 	$(VENV_DIR)/bin/pip install -r requirements-test.txt
 	$(VENV_DIR)/bin/python setup.py develop
