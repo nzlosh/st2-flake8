@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 2023 StackStorm contributors.
+# Copyright 2020-2024 StackStorm contributors.
 # Copyright 2019 Extreme Networks, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -46,7 +46,7 @@ def get_requirements():
 
 
 setup(
-    name="st2flake8",
+    name="st2-flake8",
     version=get_version_string(),
     author="StackStorm",
     author_email="info@stackstorm.com",

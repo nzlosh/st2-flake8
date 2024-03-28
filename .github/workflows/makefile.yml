@@ -17,10 +17,10 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Install dependencies
-      run: make build
+      run: make setup_virtualenv
 
     - name: Test
       run: make tests
 
     - name: Package
-      run: make package
+      run: make build_package

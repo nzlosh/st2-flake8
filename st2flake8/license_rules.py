@@ -59,7 +59,6 @@ class LicenseChecker(object):
     def add_options(cls, parser):
         parser.add_option(
             "--license-type",
-            type="choice",
             choices=["proprietary", "apache"],
             default="apache",
             action="store",
@@ -68,7 +67,7 @@ class LicenseChecker(object):
 
         parser.add_option(
             "--license-min-file-size",
-            type="int",
+            type=int,
             default=1,
             action="store",
             help="Minimum number of characters in a file before requiring a license header.",

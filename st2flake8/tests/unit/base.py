@@ -14,10 +14,12 @@
 # limitations under the License.
 
 import os
-import optparse
+from flake8 import __version__ as flake8_version
+from flake8.options.manager import OptionManager
 import unittest
 
 from st2flake8.tests.fixtures import loader as fixture_loader
+from st2flake8 import __version__ as st2flake8_version
 
 
 class Flake8PluginTest(unittest.TestCase):
@@ -32,8 +34,13 @@ class Flake8PluginTest(unittest.TestCase):
 
     def configure_options(self, instance, **kwargs):
         # Set up the args parser.
-        parser = optparse.OptionParser()
-        parser.config_options = []
+        parser = OptionManager(
+            version=flake8_version,
+            plugin_versions=st2flake8_version,
+            parents=[],
+            formatter_names=[],
+        )
+
         instance.add_options(parser)
 
         # Setup the args to pass into the checker.
@@ -43,7 +50,7 @@ class Flake8PluginTest(unittest.TestCase):
             arg_name = "--" + k.replace("_", "-")
             cli_args.extend([arg_name, str(v)])
 
-        (options, args) = parser.parse_args(cli_args)
+        options = parser.parse_args(cli_args)
 
         # Apply the options to the plugin instance.
         instance.parse_options(options)
